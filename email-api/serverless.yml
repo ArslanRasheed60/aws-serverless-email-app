@@ -25,6 +25,11 @@ provider:
   runtime: nodejs18.x
   profile: ServerlessUser
   region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:*
+      Resource: "*"
 
 # you can overwrite defaults here
 #  stage: dev
@@ -67,6 +72,13 @@ functions:
       - http:
           path: hello-test
           method: GET
+          cors: true
+  sendEmail:
+    handler: sendEmail.handler
+    events:
+      - http:
+          path: send-email
+          method: POST
           cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

@@ -25,11 +25,18 @@ provider:
   runtime: nodejs18.x
   profile: ServerlessUser
   region: eu-north-1
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - ses:*
-      Resource: "*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ses:*
+          Resource: "*"
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - ses:*
+  #     Resource: "*"
 
 # you can overwrite defaults here
 #  stage: dev
@@ -79,6 +86,13 @@ functions:
       - http:
           path: send-email
           method: POST
+          cors: true
+  list:
+    handler: sendList.list
+    events:
+      - http:
+          path: list-test
+          method: GET
           cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

@@ -1,9 +1,10 @@
+"use strict";
 const AWS = require("aws-sdk");
 
 const ses = new AWS.SES();
 
 //* create lamda function
-exports.handler = async (event) => {
+module.exports.handler = async (event) => {
   const { to, from, subject, text } = JSON.parse(event.body);
 
   if (!to || !from || !subject || !text) {
@@ -41,7 +42,7 @@ exports.handler = async (event) => {
 
 const _400 = (body) => {
   return {
-    Headers: {
+    headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Methods": "*",
       "Access-Control-Allow-Origin": "*",
@@ -51,14 +52,14 @@ const _400 = (body) => {
   };
 };
 
-const _200 = (body) => {
+const _200 = () => {
   return {
-    Headers: {
+    headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Methods": "*",
       "Access-Control-Allow-Origin": "*",
     },
     statusCode: 200,
-    body: "",
+    body: JSON.stringify({ message: "success" }),
   };
 };
